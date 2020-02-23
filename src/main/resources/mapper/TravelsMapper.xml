@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nbcj.travelshare.mapper.TravelsMapper">
+    <select id="getFeatureTravelsById" resultType="com.nbcj.travelshare.domain.GetTravelsByTpid">
+        SELECT tid, title, tpname, pics
+        FROM travels t JOIN travelstype ty
+        ON t.tpid = ty.tpid
+        WHERE t.tpid = #{id}
+        ORDER BY t.viewcount DESC LIMIT 0,6
+    </select>
+
+    <select id="findTravelsByUserId" resultType="com.nbcj.travelshare.domain.Travels">
+        SELECT tid,title, content,date,viewcount,pics,place, tpid, uid
+        FROM travels WHERE uid = #{uid}
+    </select>
+
+    <select id="findTravelsByTypeId" resultType="com.nbcj.travelshare.domain.Travels">
+        SELECT tid,title, content,date,viewcount,pics,place, tpid, uid
+        FROM travels WHERE tpid = #{tpid}
+    </select>
+
+    <select id="findCollectionTravels" resultType="com.nbcj.travelshare.domain.Travels">
+        SELECT t.tid, t.tpid, t.title, t.content, t.date, t.viewcount, t.pics
+        FROM user u
+        JOIN collection c
+        ON u.uid=c.uid
+        JOIN travels t
+        ON t.tid=c.tid
+        WHERE u.uid=#{uid}
+    </select>
+
+</mapper>

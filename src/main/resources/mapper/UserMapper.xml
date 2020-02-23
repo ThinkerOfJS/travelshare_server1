@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nbcj.travelshare.mapper.UserMapper">
+
+    <select id="findUserById" parameterType="int" resultType="com.nbcj.travelshare.domain.User">
+        SELECT uid, username, email, phone, introduction, avatarsrc FROM user WHERE uid = #{ value }
+    </select>
+
+    <select id="findUserByPhone" parameterType="string" resultType="com.nbcj.travelshare.domain.User">
+        SELECT uid, username, phone, password FROM user WHERE phone = #{ value }
+    </select>
+
+    <select id="findUserByUsername" parameterType="string" resultType="com.nbcj.travelshare.domain.User">
+        SELECT uid, username, password, phone FROM user WHERE username = #{ value }
+    </select>
+
+    <insert id="insertUser" parameterType="string">
+        INSERT INTO user(username, password) values (#{username}, #{password})
+    </insert>
+
+    <select id="countUser" parameterType="string" resultType="int">
+        SELECT COUNT(username = #{value} OR NULL ) FROM user
+    </select>
+
+    <update id="updateUser" parameterType="string">
+        UPDATE user set password = #{password} WHERE username = #{username}
+    </update>
+
+    <resultMap id="userMap" type="com.nbcj.travelshare.domain.User">
+        <id property="uid" column="uid"></id>
+        <result property="nickname" column="nickname"/>
+        <result property="username" column="username"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="introduction" column="introduction"/>
+        <result property="avatarsrc" column="avatarsrc"/>
+    </resultMap>
+    <!-- 用户收藏游记结果集 -->
+    <resultMap id="userCollectionMap" type="com.nbcj.travelshare.domain.User" extends="userMap">
+        <collection property="ctravels" ofType="com.nbcj.travelshare.domain.Travels" column="uid" select="com.nbcj.travelshare.mapper.TravelsMapper.findCollectionTravels"></collection>
+    </resultMap>
+
+    <!-- 用户发表的游记 -->
+    <resultMap id="userTravels" type="com.nbcj.travelshare.domain.User" extends="userMap">
+        <collection property="travels" ofType="com.nbcj.travelshare.domain.Travels" column="uid" select="com.nbcj.travelshare.mapper.TravelsMapper.findTravelsByUserId"></collection>
+    </resultMap>
+
+    <resultMap id="travelsResultMap" type="com.nbcj.travelshare.domain.Travels">
+        <id property="tid" column="tid"></id>
+        <result property="title" column="title"></result>
+        <result property="content" column="content"></result>
+        <result property="date" column="date"></result>
+        <result property="viewcount" column="viewcount"></result>
+        <result property="tpid" column="pics"></result>
+        <result property="uid" column="uid"></result>
+    </resultMap>
+
+    <!-- 用户收藏的游记 -->
+    <resultMap id="userCollectionTravels" type="com.nbcj.travelshare.domain.User" extends="userMap">
+        <association property="ctravels" javaType="com.nbcj.travelshare.domain.Travels" resultMap="travelsResultMap"/>
+    </resultMap>
+
+    <select id="getTravelsByUserId" resultMap="userTravels">
+        SELECT uid, username, nickname, email, phone, introduction, avatarsrc
+        FROM user WHERE uid = #{uid}
+    </select>
+
+    <select id="getCollectionTravelsByUserId" parameterType="integer" resultMap="userCollectionMap">
+        SELECT uid, username, nickname, email, phone, introduction, avatarsrc
+        FROM user WHERE uid = #{uid}
+    </select>
+</mapper>
