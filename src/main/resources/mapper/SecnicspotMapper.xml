@@ -4,6 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.nbcj.travelshare.mapper.ScenicspotMapper">
-
+    <select id="getHotScenicspot" resultType="com.nbcj.travelshare.domain.Scenicspot">
+        SELECT *
+        FROM scenicspot
+        ORDER BY viewcount
+        DESC
+        LIMIT 0,10
+    </select>
 
 </mapper>
