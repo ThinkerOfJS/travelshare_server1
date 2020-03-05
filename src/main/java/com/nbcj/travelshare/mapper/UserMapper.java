@@ -2,6 +2,7 @@ package com.nbcj.travelshare.mapper;
 
 import com.nbcj.travelshare.domain.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
 public interface UserMapper {
     User findUserById(Integer id);
     User findUserByPhone(String phone);
-    User findUserByUsername(String username);
+    User findUserByUsername(@Param(value = "value") String username);
 
     // 插入用户信息
     void insertUser(String username, String password);

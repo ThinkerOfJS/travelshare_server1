@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.nbcj.travelshare.mapper.TravelsMapper">
+    <!-- 获取游记 -->
     <select id="getFeatureTravelsById" resultType="com.nbcj.travelshare.domain.GetTravelsByTpid">
         SELECT tid, title, tpname, pics
         FROM travels t JOIN travelstype ty
@@ -12,16 +13,19 @@
         ORDER BY t.viewcount DESC LIMIT 0,6
     </select>
 
+    <!-- 获取用户发表游记 -->
     <select id="findTravelsByUserId" resultType="com.nbcj.travelshare.domain.Travels">
         SELECT tid,title, content,date,viewcount,pics,place, tpid, uid
         FROM travels WHERE uid = #{uid}
     </select>
 
+    <!-- 获取分类下的游记 -->
     <select id="findTravelsByTypeId" resultType="com.nbcj.travelshare.domain.Travels">
         SELECT tid,title, content,date,viewcount,pics,place, tpid, uid
         FROM travels WHERE tpid = #{tpid}
     </select>
 
+    <!-- 获取收藏下的游记 -->
     <select id="findCollectionTravels" resultType="com.nbcj.travelshare.domain.Travels">
         SELECT t.tid, t.tpid, t.title, t.content, t.date, t.viewcount, t.pics
         FROM user u
@@ -31,5 +35,26 @@
         ON t.tid=c.tid
         WHERE u.uid=#{uid}
     </select>
+
+    <!-- 获取游记详情 -->
+    <select id="findTravelsByTid" resultType="com.nbcj.travelshare.domain.Travels">
+        SELECT *
+        FROM travels
+        WHERE tid = #{tid}
+    </select>
+
+    <!-- 根据游记标题搜索游记 -->
+    <select id="searchTravelsByTitle" resultType="com.nbcj.travelshare.domain.Travels">
+        SELECT *
+        FROM travels
+        WHERE title
+        LIKE "%"#{title}"%"
+    </select>
+
+    <!-- 添加游记 -->
+    <insert id="addTravels">
+        INSERT INTO travels(title, content, pics, place, tpid, uid )
+        VALUES (#{title}, #{content}, #{pics}, #{place}, #{tpid}, #{uid})
+    </insert>
 
 </mapper>

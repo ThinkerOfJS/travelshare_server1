@@ -2,6 +2,7 @@ package com.nbcj.travelshare.controller;
 
 import com.nbcj.travelshare.domain.ExceptionResp;
 import com.nbcj.travelshare.domain.User;
+import com.nbcj.travelshare.mapper.TravelsMapper;
 import com.nbcj.travelshare.mapper.UserMapper;
 import com.nbcj.travelshare.service.UserService;
 import org.apache.shiro.SecurityUtils;
@@ -27,9 +28,13 @@ public class UserController {
     @Resource
     UserMapper userMapper;
 
+    @Resource
+    TravelsMapper travelsMapper;
+
     Logger logger = LoggerFactory.getLogger(getClass());
     ExceptionResp exceptionResp = new ExceptionResp();
 
+    // 登录
     @ResponseBody
     @PostMapping("/user/login")
     private ExceptionResp login(@RequestBody User user){
@@ -37,7 +42,7 @@ public class UserController {
         String username = user.getUsername();
         String password = user.getPassword();
 
-        logger.info("用户名："+ username + '-' + "密码：" + password);
+        //logger.info("用户名："+ username + '-' + "密码：" + password);
         // 1.获取 Subject
         Subject subject = SecurityUtils.getSubject();
 
@@ -64,6 +69,7 @@ public class UserController {
         return exceptionResp;
     }
 
+    // 注册
     @ResponseBody
     @PostMapping("/user/register")
     public ExceptionResp register(@RequestBody User user) {
@@ -80,6 +86,7 @@ public class UserController {
         return exceptionResp;
     }
 
+    // 忘记密码
     @ResponseBody
     @PostMapping("/user/forgot")
     public ExceptionResp updateUser(@RequestBody User user) {
@@ -97,12 +104,31 @@ public class UserController {
         return exceptionResp;
     }
 
+    // 个人收藏
     @ResponseBody
     @GetMapping("/user/collection")
     public List getCollection(@RequestParam Integer id) {
         List travels;
         travels = userMapper.getCollectionTravelsByUserId(id);
         return travels;
+    }
+
+    // 个人动态
+    @ResponseBody
+    @GetMapping("/user/dynamic")
+    public List getTravelsByUid(@RequestParam Integer id) {
+        List travels;
+        travels = travelsMapper.findTravelsByUserId(id);
+        return travels;
+    }
+
+    // 获取用户信息
+    @ResponseBody
+    @GetMapping("/user/getuser")
+    public User getUserInfo( String username ) {
+        User user;
+        user = userMapper.findUserByUsername(username);
+        return user;
     }
 
 }

@@ -20,7 +20,6 @@ class TravelshareServerApplicationTests {
     @Resource
     TravelsMapper travelsMapper;
 
-
     @Test
     void contextLoads() {
         Integer flag = userMapper.countUser("2");
@@ -48,5 +47,15 @@ class TravelshareServerApplicationTests {
     @Test
     void test004(){
         System.out.println(userMapper.getCollectionTravelsByUserId(1));
+    }
+
+    @Test
+    void test005(){
+        System.out.println(userMapper.findUserByUsername("123"));
+    }
+
+    @Test
+    void test006() {
+        System.out.println(travelsMapper.findTravelsByUserId(1));
     }
 }

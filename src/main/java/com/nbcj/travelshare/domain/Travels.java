@@ -9,6 +9,7 @@ public class Travels {
     private Integer tid;
     private String title; // 游记标题
     private String content; // 游记内容
+    private String place; // 游记地点
     private Date date; // 游记日期
     private Integer viewcount; // 游记浏览量
     private String pics; // 游记图片
@@ -36,9 +37,16 @@ public class Travels {
     }
 
     public void setContent(String content) {
+
         this.content = content;
     }
+    public String getPlace() {
+        return place;
+    }
 
+    public void setPlace(String place) {
+        this.place = place;
+    }
     public Date getDate() {
         return date;
     }

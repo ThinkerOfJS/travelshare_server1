@@ -15,8 +15,8 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @Override
-    public User findUserById(Integer id) {
-        return userMapper.findUserById(id);
+    public User findUserById(Integer uid) {
+        return userMapper.findUserById(uid);
     }
 
     @Override
@@ -55,9 +55,10 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    // 获取用户发表游记
     @Override
-    public List getTravelsByUserId(Integer id) {
-        return null;
+    public List getTravelsByUserId(Integer uid) {
+        return userMapper.getTravelsByUserId(uid);
     }
 
 }

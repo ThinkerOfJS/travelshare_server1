@@ -14,7 +14,7 @@
     </select>
 
     <select id="findUserByUsername" parameterType="string" resultType="com.nbcj.travelshare.domain.User">
-        SELECT uid, username, password, phone FROM user WHERE username = #{ value }
+        SELECT * FROM user WHERE username = #{ value }
     </select>
 
     <insert id="insertUser" parameterType="string">
@@ -25,6 +25,7 @@
         SELECT COUNT(username = #{value} OR NULL ) FROM user
     </select>
 
+    <!-- 修改密码 -->
     <update id="updateUser" parameterType="string">
         UPDATE user set password = #{password} WHERE username = #{username}
     </update>
@@ -38,6 +39,7 @@
         <result property="introduction" column="introduction"/>
         <result property="avatarsrc" column="avatarsrc"/>
     </resultMap>
+
     <!-- 用户收藏游记结果集 -->
     <resultMap id="userCollectionMap" type="com.nbcj.travelshare.domain.User" extends="userMap">
         <collection property="ctravels" ofType="com.nbcj.travelshare.domain.Travels" column="uid" select="com.nbcj.travelshare.mapper.TravelsMapper.findCollectionTravels"></collection>
@@ -58,16 +60,18 @@
         <result property="uid" column="uid"></result>
     </resultMap>
 
-    <!-- 用户收藏的游记 -->
-    <resultMap id="userCollectionTravels" type="com.nbcj.travelshare.domain.User" extends="userMap">
-        <association property="ctravels" javaType="com.nbcj.travelshare.domain.Travels" resultMap="travelsResultMap"/>
-    </resultMap>
+    <!-- 用户收藏游记结果集 -->
+<!--    <resultMap id="userCollectionTravels" type="com.nbcj.travelshare.domain.User" extends="userMap">-->
+<!--        <association property="ctravels" javaType="com.nbcj.travelshare.domain.Travels" resultMap="travelsResultMap"/>-->
+<!--    </resultMap>-->
 
+    <!-- 获取用户发表动态 -->
     <select id="getTravelsByUserId" resultMap="userTravels">
         SELECT uid, username, nickname, email, phone, introduction, avatarsrc
         FROM user WHERE uid = #{uid}
     </select>
 
+    <!-- 获取用户收藏游记 -->
     <select id="getCollectionTravelsByUserId" parameterType="integer" resultMap="userCollectionMap">
         SELECT uid, username, nickname, email, phone, introduction, avatarsrc
         FROM user WHERE uid = #{uid}
