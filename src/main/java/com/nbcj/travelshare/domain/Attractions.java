@@ -1,6 +1,6 @@
 package com.nbcj.travelshare.domain;
 
-public class Attracions {
+public class Attractions {
 
     // 景点实体类
 

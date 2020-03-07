@@ -4,12 +4,40 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.nbcj.travelshare.mapper.ScenicspotMapper">
+
+
+
+    <!-- 获取热门景区 -->
     <select id="getHotScenicspot" resultType="com.nbcj.travelshare.domain.Scenicspot">
         SELECT *
         FROM scenicspot
         ORDER BY viewcount
         DESC
-        LIMIT 0,10
+        LIMIT #{start},#{end}
     </select>
 
+    <!--  景区结果集  -->
+    <resultMap id="scenicspotMap" type="com.nbcj.travelshare.domain.Scenicspot">
+        <id property="sid" column="sid"></id>
+        <result property="title" column="title"></result>
+        <result property="viewcount" column="viewcount"></result>
+        <result property="address" column="address"></result>
+        <result property="imgurl" column="imgurl"></result>
+    </resultMap>
+
+    <resultMap id="ScenicspotDetMap" type="com.nbcj.travelshare.domain.Scenicspot" extends="scenicspotMap">
+        <collection
+                property="attracions"
+                ofType="com.nbcj.travelshare.domain.Attractions"
+                column="sid"
+                select="com.nbcj.travelshare.mapper.AttractionsMapper.getAttractionsBySid"
+        ></collection>
+    </resultMap>
+
+    <!--  根据景区Id获取景区详情  -->
+    <select id="getScenicspotBySid" resultMap="ScenicspotDetMap">
+        SELECT *
+        FROM scenicspot
+        WHERE sid = #{sid}
+    </select>
 </mapper>

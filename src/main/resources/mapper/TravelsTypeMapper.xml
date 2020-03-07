@@ -15,5 +15,6 @@
         SELECT tpid, tpname
         FROM travelstype
         WHERE tpid = #{tpid}
+        LIMIT #{start},#{end}
     </select>
 </mapper>

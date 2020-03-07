@@ -8,9 +8,9 @@ public class Comment {
 
     private Integer cmid; // 评论 id
     private Date date; // 评论日期
+    private String nickname; // y哦那个胡昵称
     private String content; // 评论内容
     private Travels travels; // 评论的游记
-    private User user; // 游记评论的用户
 
     public Integer getCmid() {
         return cmid;
@@ -44,11 +44,4 @@ public class Comment {
         this.travels = travels;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

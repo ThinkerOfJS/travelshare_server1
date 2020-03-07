@@ -10,4 +10,5 @@ public interface TravelsService {
     void addTravels(Travels travels);
     Travels getTravelsDetail(Integer tid);
     List<Travels> searchByTitle(String title);
+    List<Travels> getTravelsByTpid(Integer tpid, Integer start, Integer end); // 根据分类ID获取游记
 }
