@@ -17,6 +17,7 @@
     <select id="findTravelsByUserId" resultType="com.nbcj.travelshare.domain.Travels">
         SELECT tid,title, content,date,viewcount,pics,place, tpid, uid
         FROM travels WHERE uid = #{uid}
+        LIMIT #{start}, #{end}
     </select>
 
     <!-- 获取分类下的游记 -->
@@ -27,13 +28,14 @@
 
     <!-- 获取收藏下的游记 -->
     <select id="findCollectionTravels" resultType="com.nbcj.travelshare.domain.Travels">
-        SELECT t.tid, t.tpid, t.title, t.content, t.date, t.viewcount, t.pics
+        SELECT t.tid, t.tpid, t.title, t.content, t.date, t.viewcount, t.pics, t.place
         FROM user u
         JOIN collection c
         ON u.uid=c.uid
         JOIN travels t
         ON t.tid=c.tid
         WHERE u.uid=#{uid}
+        LIMIT #{start}, #{end}
     </select>
 
     <!-- 获取游记详情 -->
@@ -50,11 +52,41 @@
         WHERE title
         LIKE "%"#{title}"%"
     </select>
+    <select id="getConcentrationTravels" resultType="com.nbcj.travelshare.domain.Travels">
+        SELECT *
+        FROM travels
+        ORDER BY viewcount DESC
+        LIMIT 1,5
+    </select>
+
+    <select id="getViewcountByTid" resultType="java.lang.Integer">
+        SELECT viewcount FROM travels WHERE tid = #{tid}
+    </select>
+
+    <!-- 根据分类Id获取游记，并进行分页加载-->
+    <select id="getTravelsByTpid" resultType="com.nbcj.travelshare.domain.Travels">
+        SELECT tid,title, content,date,viewcount,pics,place, tpid, uid
+        FROM travels WHERE tpid = #{tpid}
+        ORDER BY viewcount DESC
+        LIMIT #{start}, #{end}
+    </select>
+
+    <!-- 当分类id为0时的获取游记-->
+    <select id="getTravelsList" resultType="com.nbcj.travelshare.domain.Travels">
+        SELECT *
+        FROM travels
+        LIMIT #{start}, #{end}
+    </select>
+
 
     <!-- 添加游记 -->
     <insert id="addTravels">
         INSERT INTO travels(title, content, pics, place, tpid, uid )
         VALUES (#{title}, #{content}, #{pics}, #{place}, #{tpid}, #{uid})
     </insert>
+
+    <update id="addViewcount">
+        UPDATE travels set viewcount = #{viewcount} WHERE tid = #{tid}
+    </update>
 
 </mapper>

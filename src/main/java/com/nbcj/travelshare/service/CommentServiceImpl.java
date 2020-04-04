@@ -21,7 +21,7 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public List<Comment> getComment(Integer tid) {
-        return commentMapper.getComment(tid);
+    public List<Comment> getComment(Integer tid, Integer start, Integer end) {
+        return commentMapper.getComment(tid, start, end);
     }
 }

@@ -5,6 +5,7 @@ import com.nbcj.travelshare.domain.User;
 import com.nbcj.travelshare.mapper.TravelsMapper;
 import com.nbcj.travelshare.mapper.UserMapper;
 import com.nbcj.travelshare.service.UserService;
+import com.nbcj.travelshare.service.UserServiceImpl;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -15,9 +16,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class UserController {
@@ -30,6 +34,9 @@ public class UserController {
 
     @Resource
     TravelsMapper travelsMapper;
+
+    @Resource
+    UserServiceImpl userServiceImpl;
 
     Logger logger = LoggerFactory.getLogger(getClass());
     ExceptionResp exceptionResp = new ExceptionResp();
@@ -75,6 +82,7 @@ public class UserController {
     public ExceptionResp register(@RequestBody User user) {
         String username = user.getUsername();
         String password = user.getPassword();
+
         Boolean flag = userService.registerUser(username, password);
         if (flag) {
             exceptionResp.setCode(0);
@@ -104,24 +112,6 @@ public class UserController {
         return exceptionResp;
     }
 
-    // 个人收藏
-    @ResponseBody
-    @GetMapping("/user/collection")
-    public List getCollection(@RequestParam Integer id) {
-        List travels;
-        travels = userMapper.getCollectionTravelsByUserId(id);
-        return travels;
-    }
-
-    // 个人动态
-    @ResponseBody
-    @GetMapping("/user/dynamic")
-    public List getTravelsByUid(@RequestParam Integer id) {
-        List travels;
-        travels = travelsMapper.findTravelsByUserId(id);
-        return travels;
-    }
-
     // 获取用户信息
     @ResponseBody
     @GetMapping("/user/getuser")
@@ -129,6 +119,23 @@ public class UserController {
         User user;
         user = userMapper.findUserByUsername(username);
         return user;
+    }
+
+    // 根据uid获取用户信息
+    @ResponseBody
+    @GetMapping("/user/userinfo")
+    public User getUserInfoByUid(@RequestParam Integer uid) {
+
+        return userMapper.findUserById(uid);
+    }
+
+    // 修改个人信息
+    @ResponseBody
+    @PostMapping("/user/change")
+    public Map changeUser(@RequestParam(value = "file",required = false) MultipartFile[] file, User user){
+        //Map<String, String> map = new HashMap<>();
+
+        return userServiceImpl.changeUserInfo(file ,user);
     }
 
 }

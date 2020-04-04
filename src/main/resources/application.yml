@@ -2,13 +2,24 @@ spring:
   datasource:
     username: root
     password: 1234567
-    url: jdbc:mysql://localhost:3306/travelshare?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/travelshare?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     #    schema:
     #      - classpath:department.sql
     #      - classpath:employee.sql
     initialization-mode: always
+#  mvc:
+#    static-path-pattern: /**
+#  resources:
+#    static-locations: classpath:/META-INF/resources/,classpath:/resources/,\
+#      classpath:/static/,classpath:/public/,file:${web.upload-path}
+#web:
+#  upload-path: F://ProjectImages/
+
+
+absoluteImgPath: F:/ProjectImages/
+sonImgPath: /img/
 
 server:
   port: 8081
@@ -16,3 +27,7 @@ server:
 mybatis:
   type-aliases-package: com.nbcj.springboot.domain
   mapper-locations: classpath:mapper/*.xml
+
+# 配置图片存储位置
+
+

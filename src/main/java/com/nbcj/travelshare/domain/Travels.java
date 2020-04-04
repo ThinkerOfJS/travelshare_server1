@@ -1,5 +1,7 @@
 package com.nbcj.travelshare.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 
@@ -10,6 +12,8 @@ public class Travels {
     private String title; // 游记标题
     private String content; // 游记内容
     private String place; // 游记地点
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date date; // 游记日期
     private Integer viewcount; // 游记浏览量
     private String pics; // 游记图片

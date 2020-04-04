@@ -5,10 +5,11 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface UserMapper {
-    User findUserById(Integer id);
+    User findUserById(Integer uid);
     User findUserByPhone(String phone);
     User findUserByUsername(@Param(value = "value") String username);
 
@@ -25,4 +26,7 @@ public interface UserMapper {
 
     // 获取用户收藏游记
     List getCollectionTravelsByUserId(Integer uid);
+
+    // 修改用户信息
+    void changeUser(Map userMap);
 }

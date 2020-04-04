@@ -23,6 +23,8 @@
         SELECT *
         FROM comment
         WHERE tid = #{tid}
+        ORDER BY cmid DESC
+        LIMIT #{start}, #{end}
     </select>
 
 </mapper>

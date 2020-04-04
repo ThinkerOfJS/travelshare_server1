@@ -16,5 +16,10 @@ public class ScenicspotServiceImpl implements ScenicspotService{
         return scenicspotMapper.getHotScenicspot(start, end);
     }
 
+    @Override
+    public Scenicspot getScenicspot(Integer sid) {
+        return null;
+    }
+
 
 }

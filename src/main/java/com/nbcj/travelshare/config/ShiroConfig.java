@@ -62,7 +62,7 @@ public class ShiroConfig {
         //filterMap.put("/login","anon");
 
         //filterMap.put("/*", "authc");
-
+        filterMap.put("/img/**", "anon");
         // 执行授权过滤器
         // 当授权拦截后，shiro会自动跳转到未授权页面
         //filterMap.put("/user/add", "perms[user:add]");

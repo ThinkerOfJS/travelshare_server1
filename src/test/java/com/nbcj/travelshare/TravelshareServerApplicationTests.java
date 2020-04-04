@@ -1,5 +1,7 @@
 package com.nbcj.travelshare;
 
+import com.nbcj.travelshare.domain.Announcement;
+import com.nbcj.travelshare.mapper.AnnouncementMapper;
 import com.nbcj.travelshare.mapper.TravelsMapper;
 import com.nbcj.travelshare.mapper.TravelsTypeMapper;
 import com.nbcj.travelshare.mapper.UserMapper;
@@ -19,6 +21,9 @@ class TravelshareServerApplicationTests {
 
     @Resource
     TravelsMapper travelsMapper;
+
+    @Resource
+    AnnouncementMapper announcementMapper;
 
     @Test
     void contextLoads() {
@@ -41,7 +46,7 @@ class TravelshareServerApplicationTests {
 
     @Test
     void test003(){
-        System.out.println(travelsTypeMapper.getTravelsByTpid(5));
+        System.out.println(travelsTypeMapper.getTravelsByTpid(1,1, 5));
     }
 
     @Test
@@ -56,6 +61,12 @@ class TravelshareServerApplicationTests {
 
     @Test
     void test006() {
-        System.out.println(travelsMapper.findTravelsByUserId(1));
+        System.out.println(travelsMapper.getTravelsByTpid(2, 0,4));
     }
+
+    @Test
+    void test007() {
+        System.out.println(announcementMapper.getAnnouncement());
+    }
+
 }

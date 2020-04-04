@@ -1,5 +1,7 @@
 package com.nbcj.travelshare.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Comment {
@@ -7,10 +9,13 @@ public class Comment {
     // 游记评论的类
 
     private Integer cmid; // 评论 id
-    private Date date; // 评论日期
-    private String nickname; // y哦那个胡昵称
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date cdate; // 评论日期
+    private String nickname; // 用户昵称
     private String content; // 评论内容
-    private Travels travels; // 评论的游记
+    private Integer tid; // 评论的游记
+    private Integer uid;
 
     public Integer getCmid() {
         return cmid;
@@ -20,12 +25,20 @@ public class Comment {
         this.cmid = cmid;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getCdate() {
+        return cdate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setCdate(Date cdate) {
+        this.cdate = cdate;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getContent() {
@@ -36,12 +49,19 @@ public class Comment {
         this.content = content;
     }
 
-    public Travels getTravels() {
-        return travels;
+    public Integer getTid() {
+        return tid;
     }
 
-    public void setTravels(Travels travels) {
-        this.travels = travels;
+    public void setTid(Integer tid) {
+        this.tid = tid;
     }
 
+    public Integer getUid() {
+        return uid;
+    }
+
+    public void setUid(Integer uid) {
+        this.uid = uid;
+    }
 }

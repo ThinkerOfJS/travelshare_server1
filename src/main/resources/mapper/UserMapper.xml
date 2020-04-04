@@ -6,7 +6,7 @@
 <mapper namespace="com.nbcj.travelshare.mapper.UserMapper">
 
     <select id="findUserById" parameterType="int" resultType="com.nbcj.travelshare.domain.User">
-        SELECT uid, username, email, phone, introduction, avatarsrc FROM user WHERE uid = #{ value }
+        SELECT * FROM user WHERE uid = #{ uid }
     </select>
 
     <select id="findUserByPhone" parameterType="string" resultType="com.nbcj.travelshare.domain.User">
@@ -28,6 +28,10 @@
     <!-- 修改密码 -->
     <update id="updateUser" parameterType="string">
         UPDATE user set password = #{password} WHERE username = #{username}
+    </update>
+    <update id="changeUser">
+        UPDATE user set nickname = #{nickname}, email = #{email}, phone = #{phone}, introduction = #{introduction}, avatarsrc = #{avatarsrc}
+        WHERE uid = #{uid}
     </update>
 
     <resultMap id="userMap" type="com.nbcj.travelshare.domain.User">
